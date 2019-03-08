@@ -7,7 +7,13 @@
     (keyup)="filter(query.value)"
     type="text" class="form-control" placeholder="Search...">
 </p>
-<table class="table">
+
+<ng2-smart-table 
+        [settings]="settings"
+        [source]="source"
+        (edit)="openEditForm($event)"></ng2-smart-table>
+
+<!-- <table class="table">
     <thead>
         <tr>
             <th>Title</th>
@@ -24,4 +30,4 @@
             </td>
         </tr>
     </tbody>
-</table>
+</table> -->

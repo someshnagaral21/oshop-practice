@@ -8,7 +8,7 @@ import { RouterModule } from '@angular/router';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { CustomFormsModule } from 'ng2-validation';
-
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { AppComponent } from './app.component';
 import { environment } from 'src/environments/environment';
 import { BcNavbarComponent } from './bc-navbar/bc-navbar.component';
@@ -28,6 +28,8 @@ import { AdminAuthGuard } from './admin-auth-guard.service';
 import { ProductFormComponent } from './admin/product-form/product-form.component';
 import { CategoryService } from './category.service';
 import { ProductService } from './product.service';
+import { ShoppingCartService } from './shopping-cart.service';
+import { ProductFilterComponent } from './products/product-filter/product-filter.component';
 
 
 
@@ -44,11 +46,13 @@ import { ProductService } from './product.service';
     AdminProductsComponent,
     AdminOrdersComponent,
     LoginComponent,
-    ProductFormComponent
+    ProductFormComponent,
+    ProductFilterComponent
   ],
   imports: [
     BrowserModule,
     CustomFormsModule,
+    Ng2SmartTableModule,        
     FormsModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
@@ -56,7 +60,7 @@ import { ProductService } from './product.service';
     AngularFireAuthModule,
     NgbModule.forRoot(),
     RouterModule.forRoot([
-      { path: '', component: HomeComponent },
+      { path: '', component: ProductsComponent },
       { path: 'products', component: ProductsComponent },
       { path: 'shopping-cart', component: ShoppingCartComponent },
       { path: 'login', component: LoginComponent },
@@ -78,7 +82,8 @@ import { ProductService } from './product.service';
     AdminAuthGuard,
     UserService,
     CategoryService,
-    ProductService
+    ProductService,
+    ShoppingCartService
   ],
   bootstrap: [AppComponent]
 })
