@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, OnDestroy, SimpleChanges } from '@angular/core';
 import { ProductService } from '../product.service';
-import { CategoryService } from '../category.service';
 import { ActivatedRoute } from '@angular/router';
 import { ShoppingCartService } from '../shopping-cart.service';
 import { Subscription } from 'rxjs';
@@ -14,7 +13,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
   @Input('shopping-cart') shoppingCart;
   @Input('product') product: any;
 
-  categories$;
   products: any[] = [];
   filteredProducts: any[] = [];
   category: string;
@@ -22,10 +20,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   constructor(
-    private cartService: ShoppingCartService,
+    private shoppingCartService: ShoppingCartService,
     route: ActivatedRoute,
-    productService: ProductService, 
-    categoryService: CategoryService) { 
+    productService: ProductService) { 
       
     productService
     .getAll()
@@ -44,28 +41,10 @@ export class ProductsComponent implements OnInit, OnDestroy {
           this.products;
       });
   
-    this.categories$ = categoryService.getCategories().valueChanges();
-    
-  }
-  
-  // ngOnChanges(changes: SimpleChanges) {  
-  // }
-  
-  addToCart(products){
-    this.cartService.addToCart(products);
-  }
-
-  getquantity(){
-    if(!this.shoppingCart)
-    {
-      return 0;
-    }
-    let item = this.shoppingCart[this.product.id];
-    return item ? item.quantity : 0;
   }
 
   async ngOnInit(){
-    this.subscription = (await this.cartService.getCart()).valueChanges()
+    this.subscription = (await this.shoppingCartService.getCart()).valueChanges()
     .subscribe(cart => this.cart = cart);  
   }
 

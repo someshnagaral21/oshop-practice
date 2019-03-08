@@ -23,7 +23,7 @@ export class ShoppingCartService {
   }
   
 
-  private async getOrCreateCartId(){
+  private async getOrCreateCartId(): Promise<string>{
     let cartId = localStorage.getItem('cartId');
     if(cartId){
       return cartId;
@@ -34,13 +34,13 @@ export class ShoppingCartService {
 
   }
 
-  async addToCart(products){
+  async addToCart(product: any){
     let cartId = await this.getOrCreateCartId();
-    let item$: Observable<any> = this.db.object('/shopping-carts/' + cartId + '/items/' + products.id).valueChanges();
-    let item$$ =  this.db.object('/shopping-carts/' + cartId + '/items/' + products.id);
+    let item$: Observable<any> = this.db.object('/shopping-carts/' + cartId + '/items/' + product.id).valueChanges();
+    let item$$ =  this.db.object('/shopping-carts/' + cartId + '/items/' + product.id);
     item$.take(1).subscribe(item => {
       if(item == null){
-        item$$.set({products: products, quantity: 1 }); 
+        item$$.set({product: product, quantity: 1 }); 
       }
       else{
         item$$.update({quantity: item.quantity + 1});
